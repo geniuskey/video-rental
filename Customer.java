@@ -45,14 +45,8 @@ public class Customer {
 			double eachCharge = 0;  // Charging, point 두가지 목적 사용 됨. SRP 위배
 			int eachPoint = 0 ;
 			int daysRented;
-			long diff;
 
-			if (each.getStatus() == 1) { // returned Video
-				diff = each.getReturnDate().getTime() - each.getRentDate().getTime();
-			} else { // not yet returned
-				diff = new Date().getTime() - each.getRentDate().getTime();
-			}
-			daysRented = (int) (diff / ONE_DAY_MS) + 1;
+			daysRented = each.getDaysRented();
 
 			// TODO: switch가 smell 인지 아닌지는 직접 판단.
 			switch (each.getPriceCode()) {

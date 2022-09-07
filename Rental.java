@@ -54,15 +54,8 @@ public class Rental {
 	// TODO: duplicate code. feature envy?
 	public int getDaysRentedLimit() {
 		int limit = 0 ;
-		int daysRented ;
-		if (getStatus() == 1) { // returned Video
-			long diff = returnDate.getTime() - rentDate.getTime();
-			daysRented = (int) (diff / ONE_DAY_MS) + 1;
-		} else { // not yet returned
-			long diff = new Date().getTime() - rentDate.getTime();
-			daysRented = (int) (diff / ONE_DAY_MS) + 1;
-		}
-		if ( daysRented <= 2) return limit ;
+
+		if ( getDaysRented() <= 2) return limit ;
 
 		switch ( video.getVideoType() ) {
 			case Video.VHS:
@@ -76,5 +69,17 @@ public class Rental {
 				break ;
 		}
 		return limit ;
+	}
+
+	public int getDaysRented() {
+		long diff;
+		int daysRented;
+		if (getStatus() == 1) { // returned Video
+			diff = returnDate.getTime() - rentDate.getTime();
+		} else { // not yet returned
+			diff = new Date().getTime() - rentDate.getTime();
+		}
+		daysRented = (int) (diff / ONE_DAY_MS) + 1;
+		return daysRented;
 	}
 }
