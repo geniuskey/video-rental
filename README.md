@@ -7,7 +7,6 @@
 - Primitive Obsession
 - Switch Statement
 - Duplicate Code
-- Dead Code
 - Shotgun Surgery
 
 
@@ -20,7 +19,6 @@
 | Primitive Obsession |       중       | Video Class 내 PriceCode, Type의 Enum Class 선언                           |
 | Switch Statement    |       하       | VRUI Command 별 카테고리화를 통한 case 복잡도 개선 (Customer, Video, Quit) |
 | Duplicate Code      |       중       | Video Class내의 멤버 함수로 정의 (SRP 준수)                                |
-| Dead Code           |       하       | 향후 사용 가능성이 있어 유지함.                                            |
 | Shotgun Surgery     |       상       | 흩어진 변경 기능을 하나의 클래스에 모아서 응집도 높임.                     |
 
 
@@ -30,7 +28,7 @@
 - Refactoring Project
 ![Refactoring](VR_revision.png)
 
-## Refactoring smells
+## How we refactored code smells
 - God Class & Large Class
   - VRUI : VRManager Class 생성 및 Domain Logic 위임
     - VRUI : Console 입력(Command, Customer, Video 입력)
@@ -42,7 +40,6 @@
 - Duplicate Code
   - Customer 찾는 로직 추출
   - if/else 내 중복 수행 코드 추출
-  - 
 - Primitive Obsession
   - Enum Class 생성 : VideoType, PriceCode, RentalStatus
   - one-day -> msec 변환 식 상수화
