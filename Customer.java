@@ -3,6 +3,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Customer {
+	public static final int ONE_DAY_MS = 1000 * 60 * 60 * 24;
 	private String name;
 
 	private List<Rental> rentals = new ArrayList<Rental>();
@@ -41,22 +42,23 @@ public class Customer {
 		int totalPoint = 0;
 
 		for (Rental each : rentals) {
-			double eachCharge = 0;
+			double eachCharge = 0;  // Charging, point 두가지 목적 사용 됨. SRP 위배
 			int eachPoint = 0 ;
-			int daysRented = 0;
+			int daysRented;
+			long diff;
 
 			if (each.getStatus() == 1) { // returned Video
-				long diff = each.getReturnDate().getTime() - each.getRentDate().getTime();
-				daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
+				diff = each.getReturnDate().getTime() - each.getRentDate().getTime();
 			} else { // not yet returned
-				long diff = new Date().getTime() - each.getRentDate().getTime();
-				daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
+				diff = new Date().getTime() - each.getRentDate().getTime();
 			}
+			daysRented = (int) (diff / ONE_DAY_MS) + 1;
 
-			switch (each.getVideo().getPriceCode()) {
+			// TODO: switch가 smell 인지 아닌지는 직접 판단.
+			switch (each.getPriceCode()) {
 			case Video.REGULAR:
 				eachCharge += 2;
-				if (daysRented > 2)
+				if (daysRented > 2)  // TODO: 2는 매직 넘버?
 					eachCharge += (daysRented - 2) * 1.5;
 				break;
 			case Video.NEW_RELEASE:
@@ -66,23 +68,24 @@ public class Customer {
 
 			eachPoint++;
 
-			if ((each.getVideo().getPriceCode() == Video.NEW_RELEASE) )
+			if ((each.getPriceCode() == Video.NEW_RELEASE) )
 				eachPoint++;
 
+			// TODO: feature envy
 			if ( daysRented > each.getDaysRentedLimit() )
-				eachPoint -= Math.min(eachPoint, each.getVideo().getLateReturnPointPenalty()) ;
+				eachPoint -= Math.min(eachPoint, each.getVideo().getLateReturnPointPenalty()) ;  // chain messaging
 
 			result += "\t" + each.getVideo().getTitle() + "\tDays rented: " + daysRented + "\tCharge: " + eachCharge
 					+ "\tPoint: " + eachPoint + "\n";
 
 			totalCharge += eachCharge;
 
-			totalPoint += eachPoint ;
+			totalPoint += eachPoint ;  // 미래 지향적으로 분할하는 것도 좋을듯
 		}
 
 		result += "Total charge: " + totalCharge + "\tTotal Point:" + totalPoint + "\n";
 
-
+		// string generation
 		if ( totalPoint >= 10 ) {
 			System.out.println("Congrats! You earned one free coupon");
 		}

@@ -1,8 +1,9 @@
 import java.util.Date;
 
 public class Rental {
+	public static final int ONE_DAY_MS = (1000 * 60 * 60 * 24);
 	private Video video ;
-	private int status ; // 0 for Rented, 1 for Returned
+	private int status ; // 0 for Rented, 1 for Returned -> explicit 하게 ENUM 사용하는게 좋지 않을까?
 	private Date rentDate ;
 	private Date returnDate ;
 
@@ -14,6 +15,10 @@ public class Rental {
 
 	public Video getVideo() {
 		return video;
+	}
+
+	public int getPriceCode() {
+		return video.getPriceCode();
 	}
 
 	public void setVideo(Video video) {
@@ -46,22 +51,29 @@ public class Rental {
 		this.returnDate = returnDate;
 	}
 
+	// TODO: duplicate code. feature envy?
 	public int getDaysRentedLimit() {
 		int limit = 0 ;
 		int daysRented ;
 		if (getStatus() == 1) { // returned Video
 			long diff = returnDate.getTime() - rentDate.getTime();
-			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
+			daysRented = (int) (diff / ONE_DAY_MS) + 1;
 		} else { // not yet returned
 			long diff = new Date().getTime() - rentDate.getTime();
-			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
+			daysRented = (int) (diff / ONE_DAY_MS) + 1;
 		}
 		if ( daysRented <= 2) return limit ;
 
 		switch ( video.getVideoType() ) {
-			case Video.VHS: limit = 5 ; break ;
-			case Video.CD: limit = 3 ; break ;
-			case Video.DVD: limit = 2 ; break ;
+			case Video.VHS:
+				limit = 5 ;
+				break ;
+			case Video.CD:
+				limit = 3 ;
+				break ;
+			case Video.DVD:
+				limit = 2 ;
+				break ;
 		}
 		return limit ;
 	}
