@@ -31,8 +31,8 @@ public class VRManager {
             System.out.println("Name: " + foundCustomer.getName() +
                     "\tRentals: " + foundCustomer.getRentals().size()) ;
             for ( Rental rental: foundCustomer.getRentals() ) {
-                System.out.print("\tTitle: " + rental.getVideo().getTitle() + " ") ;
-                System.out.print("\tPrice Code: " + rental.getVideo().getPriceCode()) ;
+                System.out.print("\tTitle: " + rental.getTitle() + " ") ;
+                System.out.print("\tPrice Code: " + rental.getPriceCode()) ;
             }
 
             List<Rental> rentals = new ArrayList<Rental>() ;
@@ -58,9 +58,9 @@ public class VRManager {
 
         List<Rental> customerRentals = foundCustomer.getRentals() ;
         for ( Rental rental: customerRentals ) {
-            if ( rental.getVideo().getTitle().equals(videoTitle) && rental.getVideo().isRented() ) {
+            if ( rental.getTitle().equals(videoTitle) && rental.isRented() ) {
                 rental.returnVideo();
-                rental.getVideo().setRented(false);
+                rental.setRented(false);
                 break ;
             }
         }
@@ -99,8 +99,8 @@ public class VRManager {
             System.out.println("Name: " + customer.getName() +
                     "\tRentals: " + customer.getRentals().size()) ;
             for ( Rental rental: customer.getRentals() ) {
-                System.out.print("\tTitle: " + rental.getVideo().getTitle() + " ") ;
-                System.out.print("\tPrice Code: " + rental.getVideo().getPriceCode()) ;
+                System.out.print("\tTitle: " + rental.getTitle() + " ") ;
+                System.out.print("\tPrice Code: " + rental.getPriceCode()) ;
             }
         }
         System.out.println("End of list");

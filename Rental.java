@@ -13,10 +13,25 @@ public class Rental {
 		rentDate = new Date() ;
 	}
 
+	public int getLateReturnPointPenalty() {
+		return video.getLateReturnPointPenalty();
+	}
+
 	public Video getVideo() {
 		return video;
 	}
 
+	public String getTitle() {
+		return video.getTitle();
+	}
+
+	public void setRented(boolean rented){
+		video.setRented(rented);
+	}
+
+	public boolean isRented(){
+		return video.isRented();
+	}
 	public int getPriceCode() {
 		return video.getPriceCode();
 	}

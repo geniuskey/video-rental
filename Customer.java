@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Customer {
@@ -67,9 +66,9 @@ public class Customer {
 
 			// TODO: feature envy
 			if ( daysRented > each.getDaysRentedLimit() )
-				eachPoint -= Math.min(eachPoint, each.getVideo().getLateReturnPointPenalty()) ;  // chain messaging
+				eachPoint -= Math.min(eachPoint, each.getLateReturnPointPenalty()) ;  // chain messaging
 
-			result += "\t" + each.getVideo().getTitle() + "\tDays rented: " + daysRented + "\tCharge: " + eachCharge
+			result += "\t" + each.getTitle() + "\tDays rented: " + daysRented + "\tCharge: " + eachCharge
 					+ "\tPoint: " + eachPoint + "\n";
 
 			totalCharge += eachCharge;
@@ -88,4 +87,5 @@ public class Customer {
 		}
 		return result ;
 	}
+
 }
