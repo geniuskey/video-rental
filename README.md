@@ -23,7 +23,6 @@
 | Dead Code           |       하       | 향후 사용 가능성이 있어 유지함.                                            |
 | Shotgun Surgery     |       상       | 흩어진 변경 기능을 하나의 클래스에 모아서 응집도 높임.                     |
 
-위의 내용은 수정 필요. Ex 5 의 내용을 복사해옴. 
 
 ## Class Diagram
 - Original Project
