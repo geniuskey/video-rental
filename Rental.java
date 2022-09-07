@@ -12,6 +12,20 @@ public class Rental {
 		rentDate = new Date() ;
 	}
 
+	static double getEachCharge(Rental rental, double charge, int daysRented) {
+		switch (rental.getVideo().getPriceCode()) {
+		case Video.REGULAR:
+			charge += 2;
+			if (daysRented > 2)
+				charge += (daysRented - 2) * 1.5;
+			break;
+		case Video.NEW_RELEASE:
+			charge = daysRented * 3;
+			break;
+		}
+		return charge;
+	}
+
 	public Video getVideo() {
 		return video;
 	}
