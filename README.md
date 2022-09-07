@@ -25,6 +25,8 @@
 ## Class Diagram
 - Original Project
 ![Original](VR_Origin.png)
+- Refactoring Project
+![Refactor](VR_revision.png)
 
 ## How we refactored code smells
 - God Class & Large Class
