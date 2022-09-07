@@ -71,21 +71,33 @@ public class Rental {
 		return  startDate.getTime() - getRentDate().getTime();
 	}
 
-	public double getEachCharge(int daysRented) {
-		double eachCharge = 1;
+	public double getEachCharge() {
+		int daysRented = getDaysRented();
 		if(getVideo().isRegularType()){
-			eachCharge = 2;
-			if (daysRented > 2)
-				eachCharge += (daysRented - 2) * 1.5;
+			return regularCharge(daysRented);
 		}
 		else{
-			eachCharge = daysRented * 3;
+			return newReleaseCharge(daysRented);
 		}
+	}
+
+	private static double newReleaseCharge(int daysRented) {
+		return daysRented * 3;
+	}
+
+	private static double regularCharge(int daysRented) {
+		double eachCharge = 2;
+		if (daysRented > 2)
+			eachCharge += overCharge(daysRented);
 		return eachCharge;
 	}
 
+	private static double overCharge(int daysRented) {
+		return (daysRented - 2) * 1.5;
+	}
+
 	public String getResult(int eachPoint) {
-		return "\t" + getVideo().getTitle() + "\tDays rented: " + getDaysRented() + "\tCharge: " + getEachCharge(getDaysRented())
+		return "\t" + getVideo().getTitle() + "\tDays rented: " + getDaysRented() + "\tCharge: " + getEachCharge()
 				+ "\tPoint: " + eachPoint + "\n";
 	}
 
