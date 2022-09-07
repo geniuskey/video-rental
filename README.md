@@ -24,3 +24,31 @@
 | Shotgun Surgery     |       상       | 흩어진 변경 기능을 하나의 클래스에 모아서 응집도 높임.                     |
 
 위의 내용은 수정 필요. Ex 5 의 내용을 복사해옴. 
+
+## Class Diagram
+- Before
+- After
+
+## Refactoring smells
+- God Class & Large Class
+  - VRUI : VRManager Class 생성 및 Domain Logic 위임
+    - VRUI : Console 입력(Command, Customer, Video 입력)
+    - VRManager : VRUI에서 Command별 메소드 구현
+- Shotgun Surgery
+  - VRUI/Rental : VRManager(기존 VRUI)와 Rental Class 간의 관계 단절
+    - 기존 : VRManager에서 Rental Instance 생성 후 Customer의 Rentals 멤버 수정
+    - 변경 : Rental Instance 생성을 Customer에 위임
+- Duplicate Code
+  - Customer 찾는 로직 추출
+  - if/else 내 중복 수행 코드 추출
+  - 
+- Primitive Obsession
+  - Enum Class 생성 : VideoType, PriceCode, RentalStatus
+  - one-day -> msec 변환 식 상수화
+    - public static final int ONE_DAY_MS = 1000 * 60 * 60 * 24;
+- Long Method
+  - Customer.getReport : 비용, 포인트 계산식을 Rental Class로 이동
+  - VRUI.register : Customer, Video 각각의 Register Method로 분리
+- Switch Statement
+  - main 내 command 관련 switch : Customer, Video 별 Command로 카테고리화 하여 Switch 문을 역할별로 분리
+
