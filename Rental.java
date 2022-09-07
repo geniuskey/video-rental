@@ -110,4 +110,12 @@ public class Rental {
 			eachPoint -= Math.min(eachPoint, getVideo().getLateReturnPointPenalty()) ;
 		return eachPoint;
 	}
+	public boolean setRentInfo(String videoTitle){
+		if ( getVideo().getTitle().equals(videoTitle) && getVideo().isRented() ) {
+			returnVideo();
+			getVideo().setRented(false);
+			return true;
+		}
+		return false;
+	}
 }

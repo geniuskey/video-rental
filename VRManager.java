@@ -40,11 +40,8 @@ public class VRManager {
     private static void setVideoRented(Customer foundCustomer, String videoTitle) {
         List<Rental> customerRentals = foundCustomer.getRentals() ;
         for ( Rental rental: customerRentals ) {
-            if ( rental.getVideo().getTitle().equals(videoTitle) && rental.getVideo().isRented() ) {
-                rental.returnVideo();
-                rental.getVideo().setRented(false);
-                break ;
-            }
+            if(rental.setRentInfo(videoTitle))
+                return;
         }
     }
 
