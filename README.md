@@ -26,8 +26,10 @@
 위의 내용은 수정 필요. Ex 5 의 내용을 복사해옴. 
 
 ## Class Diagram
-- Before
-- After
+- Original Project
+![Original](VR_Origin.png)
+- Refactoring Project
+![Refactoring](VR_revision.png)
 
 ## Refactoring smells
 - God Class & Large Class
