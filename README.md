@@ -26,7 +26,7 @@
 - Original Project
 ![Original](VR_Origin.png)
 - Refactoring Project
-![Refactoring](VR_revision.png)
+![Refactor](VR_revision.png)
 
 ## How we refactored code smells
 - God Class & Large Class
