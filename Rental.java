@@ -2,13 +2,13 @@ import java.util.Date;
 
 public class Rental {
 	private Video video ;
-	private int status ; // 0 for Rented, 1 for Returned
+	private RentalStatus status ;
 	private Date rentDate ;
 	private Date returnDate ;
 
 	public Rental(Video video) {
 		this.video = video ;
-		status = 0 ;
+		status = RentalStatus.RENTED ;
 		rentDate = new Date() ;
 	}
 
@@ -20,13 +20,13 @@ public class Rental {
 		this.video = video;
 	}
 
-	public int getStatus() {
+	public RentalStatus getStatus() {
 		return status;
 	}
 
 	public void returnVideo() {
-		if ( status == 1 ) {
-			this.status = 1;
+		if (isReturned()) {
+			this.status = RentalStatus.RETURNED;
 			returnDate = new Date() ;
 		}
 	}
@@ -47,22 +47,55 @@ public class Rental {
 	}
 
 	public int getDaysRentedLimit() {
-		int limit = 0 ;
-		int daysRented ;
-		if (getStatus() == 1) { // returned Video
-			long diff = returnDate.getTime() - rentDate.getTime();
-			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
-		} else { // not yet returned
-			long diff = new Date().getTime() - rentDate.getTime();
-			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
-		}
-		if ( daysRented <= 2) return limit ;
+		if ( getDaysRented() <= 2) return 0 ;
+		return video.getLimit() ;
+	}
+	public void reportRentalState() {
+		System.out.print("\tTitle: " + video.getTitle() + " ") ;
+		System.out.print("\tPrice Code: " + video.getPriceCode()) ;
+	}
 
-		switch ( video.getVideoType() ) {
-			case Video.VHS: limit = 5 ; break ;
-			case Video.CD: limit = 3 ; break ;
-			case Video.DVD: limit = 2 ; break ;
+	public int getDaysRented() {
+		int daysRented = 0;
+		long diff = 0L;
+		Date startDate = new Date();
+		if (isReturned()) { // returned Video
+			startDate = getReturnDate();
 		}
-		return limit ;
+		return (int) (getDiffDate(startDate) / (1000 * 60 * 60 * 24)) + 1;
+	}
+	private boolean isReturned() {
+		return status == RentalStatus.RETURNED;
+	}
+	private long getDiffDate(Date startDate) {
+		return  startDate.getTime() - getRentDate().getTime();
+	}
+
+	public double getEachCharge(int daysRented) {
+		double eachCharge = 1;
+		if(getVideo().isRegularType()){
+			eachCharge = 2;
+			if (daysRented > 2)
+				eachCharge += (daysRented - 2) * 1.5;
+		}
+		else{
+			eachCharge = daysRented * 3;
+		}
+		return eachCharge;
+	}
+
+	public String getResult(int eachPoint) {
+		return "\t" + getVideo().getTitle() + "\tDays rented: " + getDaysRented() + "\tCharge: " + getEachCharge(getDaysRented())
+				+ "\tPoint: " + eachPoint + "\n";
+	}
+
+	public int getEachPoint() {
+		int eachPoint = 1;
+		if ((getVideo().getPriceCode() == PriceCode.NEW_RELEASE) )
+			eachPoint++;
+
+		if ( getDaysRented() > getDaysRentedLimit() )
+			eachPoint -= Math.min(eachPoint, getVideo().getLateReturnPointPenalty()) ;
+		return eachPoint;
 	}
 }
